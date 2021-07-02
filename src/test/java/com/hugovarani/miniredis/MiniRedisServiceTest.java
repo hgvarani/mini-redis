@@ -9,55 +9,55 @@ class MiniRedisServiceTest {
 
     @Test
     void shouldSetACorrectKey(){
-        Assertions.assertEquals(miniRedis.set("myKey", "myValue"), "OK");
+        Assertions.assertEquals(miniRedis.set("myKey", "myValue", null), "OK");
     }
 
     @Test
     void setShouldThrowNPEWhenKeyIsNull(){
-        Assertions.assertThrows(NullPointerException.class, () -> miniRedis.set(null, "myValue"));
+        Assertions.assertThrows(NullPointerException.class, () -> miniRedis.set(null, "myValue", null));
     }
 
     @Test
     void setShouldThrowNPEWhenValueIsNull(){
-        Assertions.assertThrows(NullPointerException.class, () -> miniRedis.set("myKey", null));
+        Assertions.assertThrows(NullPointerException.class, () -> miniRedis.set("myKey", null, null));
     }
 
     @Test
     void shouldGetExistingValueByKey(){
-        miniRedis.set("myKey", "myValue");
+        miniRedis.set("myKey", "myValue", null);
         Assertions.assertEquals(miniRedis.get("myKey"), "myValue");
     }
 
     @Test
     void shouldGetNullValueByNonExistingKey(){
-        miniRedis.set("myKey", "myValue");
+        miniRedis.set("myKey", "myValue", null);
         Assertions.assertEquals(miniRedis.get("notAKey"), "(nil)");
     }
 
     @Test
     void delShouldRemoveAllExistingElements(){
-        miniRedis.set("a","a");
-        miniRedis.set("b","b");
-        miniRedis.set("c","c");
-        miniRedis.set("d","d");
+        miniRedis.set("a","a", null);
+        miniRedis.set("b","b", null);
+        miniRedis.set("c","c", null);
+        miniRedis.set("d","d", null);
 
         Assertions.assertEquals(miniRedis.del("a", "b", "c", "d"), 4);
     }
 
     @Test
     void delShouldRemoveOnlyExistingElements(){
-        miniRedis.set("b","b");
-        miniRedis.set("c","c");
-        miniRedis.set("d","d");
+        miniRedis.set("b","b", null);
+        miniRedis.set("c","c", null);
+        miniRedis.set("d","d", null);
 
         Assertions.assertEquals(miniRedis.del("a", "b", "c", "d"), 3);
     }
 
     @Test
     void dbSizeShouldCountCorrectlyAfterRemovingValues(){
-        miniRedis.set("b","b");
-        miniRedis.set("c","c");
-        miniRedis.set("d","d");
+        miniRedis.set("b","b", null);
+        miniRedis.set("c","c", null);
+        miniRedis.set("d","d", null);
 
         Assertions.assertEquals(miniRedis.dbSize(), 3);
 
@@ -67,7 +67,7 @@ class MiniRedisServiceTest {
 
     @Test
     void incrShouldIncrementExistingValue(){
-        miniRedis.set("a", "5");
+        miniRedis.set("a", "5", null);
 
         Assertions.assertEquals(miniRedis.incr("a"), 6);
     }
@@ -79,7 +79,7 @@ class MiniRedisServiceTest {
 
     @Test
     void shouldReturnNullIfValueIsInvalid(){
-        miniRedis.set("a", "a");
+        miniRedis.set("a", "a", null);
 
         Assertions.assertNull(miniRedis.incr("a"));
     }

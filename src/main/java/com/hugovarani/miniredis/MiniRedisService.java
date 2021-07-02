@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 
 @Service
@@ -18,8 +21,17 @@ public class MiniRedisService {
         map = new ConcurrentHashMap<>();
     }
 
-    public String set(String key, String value) {
+    public String set(String key, String value, Integer time) {
         map.put(key, value);
+        if (time != null){
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    map.remove(key);
+                }
+            }, TimeUnit.SECONDS.toMillis(time));
+        }
         return "OK";
     }
 

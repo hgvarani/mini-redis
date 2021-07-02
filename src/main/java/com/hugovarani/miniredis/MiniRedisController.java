@@ -13,8 +13,9 @@ public class MiniRedisController {
 
     @PostMapping("/set")
     public String set(@RequestParam(value = "key") String key,
-                      @RequestParam(value = "value") String value){
-        return miniRedis.set(key, value);
+                      @RequestParam(value = "value") String value,
+                      @RequestParam(value = "time", required = false) Integer time){
+        return miniRedis.set(key, value, time);
     }
 
     @GetMapping("/get/{key}")

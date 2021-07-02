@@ -1,18 +1,11 @@
-package test;
+package com.hugovarani.miniredis;
 
-import main.MiniRedis;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class MiniRedisTest {
+class MiniRedisServiceTest {
 
-    private static MiniRedis miniRedis;
-
-    @BeforeAll
-    static void before(){
-        miniRedis = new MiniRedis();
-    }
+    private final MiniRedisService miniRedis = new MiniRedisService();
 
     @Test
     void shouldSetACorrectKey(){
@@ -90,6 +83,5 @@ class MiniRedisTest {
 
         Assertions.assertNull(miniRedis.incr("a"));
     }
-
 
 }

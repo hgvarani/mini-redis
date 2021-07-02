@@ -1,16 +1,23 @@
-package main;
+package com.hugovarani.miniredis;
+
+import lombok.Data;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class MiniRedis {
 
-    Map<String, String> map;
+@Data
+@Service
+@Scope("singleton")
+public class MiniRedisService {
 
-    public MiniRedis() {
-        map = new Hashtable<>();
+    private ConcurrentHashMap<String, String> map;
+
+    public MiniRedisService(){
+        map = new ConcurrentHashMap<>();
     }
 
     public String set(String key, String value) {

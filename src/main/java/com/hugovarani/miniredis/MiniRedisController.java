@@ -11,14 +11,29 @@ public class MiniRedisController {
     @Autowired
     private final MiniRedisService miniRedis = new MiniRedisService();
 
-    @GetMapping("/GET/{key}")
+    @PostMapping("/set")
+    public String set(@RequestParam(value = "key") String key,
+                      @RequestParam(value = "value") String value){
+        return miniRedis.set(key, value);
+    }
+
+    @GetMapping("/get/{key}")
     public String get(@PathVariable String key){
         return miniRedis.get(key);
     }
 
-    @PostMapping("/SET")
-    public String set(@RequestParam(value = "key") String key,
-                      @RequestParam(value = "value") String value){
-        return miniRedis.set(key, value);
+    @PostMapping("/del")
+    public Integer del(@RequestParam(value = "keys") String... keys){
+        return miniRedis.del(keys);
+    }
+
+    @GetMapping("/dbsize")
+    public Integer dbSize(){
+        return miniRedis.dbSize();
+    }
+
+    @PostMapping("/incr/{key}")
+    public Integer incr(@PathVariable String key){
+        return miniRedis.incr(key);
     }
 }

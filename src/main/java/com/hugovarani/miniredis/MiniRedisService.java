@@ -1,6 +1,5 @@
 package com.hugovarani.miniredis;
 
-import lombok.Data;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-@Data
 @Service
 @Scope("singleton")
 public class MiniRedisService {

@@ -24,6 +24,10 @@ public class MiniRedisService {
     }
 
     public String get(String key) {
+        if(!map.containsKey(key)){
+            return "(nil)";
+        }
+
         return map.get(key);
     }
 

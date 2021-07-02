@@ -22,7 +22,7 @@ public class MiniRedisController {
         return miniRedis.get(key);
     }
 
-    @PostMapping("/del")
+    @DeleteMapping("/del")
     public Integer del(@RequestParam(value = "keys") String... keys){
         return miniRedis.del(keys);
     }

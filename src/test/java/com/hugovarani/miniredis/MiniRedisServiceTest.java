@@ -31,7 +31,7 @@ class MiniRedisServiceTest {
     @Test
     void shouldGetNullValueByNonExistingKey(){
         miniRedis.set("myKey", "myValue");
-        Assertions.assertNull(miniRedis.get("anotherKey"));
+        Assertions.assertEquals(miniRedis.get("notAKey"), "(nil)");
     }
 
     @Test

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class MiniRedisService {
 
     private final ConcurrentHashMap<String, String> map;
-    private final ConcurrentHashMap<String, LinkedHashMap<Integer, String>> zSet;
+    private final ConcurrentHashMap<String, ConcurrentHashMap<Integer, String>> zSet;
 
     public MiniRedisService(){
         map = new ConcurrentHashMap<>();
@@ -83,7 +83,7 @@ public class MiniRedisService {
             return 1;
         }
 
-        LinkedHashMap<Integer, String> newZSet = new LinkedHashMap<>();
+        ConcurrentHashMap<Integer, String> newZSet = new ConcurrentHashMap<>();
         newZSet.put(score,member);
         zSet.put(key, newZSet);
         return 1;
@@ -99,7 +99,8 @@ public class MiniRedisService {
         }
 
         return zSet.get(key).entrySet()
-                .stream().filter(entry -> entry.getKey() >= min && entry.getKey() <= max)
+                .stream().sorted(Map.Entry.comparingByKey())
+                .filter(entry -> entry.getKey() >= min && entry.getKey() <= max)
                 .map(elements -> {
                     StringBuffer stringBuffer = new StringBuffer();
                     stringBuffer.append(String.format("%s) %s", elements.getKey(), elements.getValue()));

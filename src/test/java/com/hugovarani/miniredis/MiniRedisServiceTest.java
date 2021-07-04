@@ -3,6 +3,11 @@ package com.hugovarani.miniredis;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 class MiniRedisServiceTest {
 
     private final MiniRedisService miniRedis = new MiniRedisService();
@@ -87,6 +92,63 @@ class MiniRedisServiceTest {
         miniRedis.set("a", "a", null);
 
         Assertions.assertNull(miniRedis.incr("a"));
+    }
+
+    @Test
+    void zaddShouldSaveNormally(){
+        Assertions.assertEquals(miniRedis.zadd("myZSet", 1, "example"), 1);
+    }
+
+    @Test
+    void zcardShouldPrintCorrectElementNumbers(){
+        miniRedis.zadd("mySet", 1, "one");
+        Assertions.assertEquals(miniRedis.zcard("mySet"), 1);
+
+        miniRedis.zadd("mySet", 2, "two");
+        Assertions.assertEquals(miniRedis.zcard("mySet"), 2);
+
+        Assertions.assertEquals(miniRedis.zcard("invalidSet"), 0);
+    }
+
+    @Test
+    void zaddShouldReplaceExistingScores(){
+        miniRedis.zadd("aSet", 1, "one");
+        miniRedis.zadd("aSet", 1, "notOne");
+
+        List<String> expectedResult = Arrays.asList("1) notOne");
+
+        Assertions.assertEquals(miniRedis.zrange("aSet", 1, 1),  expectedResult);
+    }
+
+    @Test
+    void zrangeShouldGetEmptyListWithWrongZSet(){
+        Assertions.assertEquals(miniRedis.zrange("unexistingZSet", 1, 1), Collections.emptyList());
+    }
+
+    @Test
+    void zrangeShouldGetElementsInRange(){
+        miniRedis.zadd("zset", 1, "insideRange");
+        miniRedis.zadd("zset", 9, "outsideRange");
+
+        List<String> expectedResult = new ArrayList<>();
+        expectedResult.add("1) insideRange");
+
+        Assertions.assertEquals(miniRedis.zrange("zset", 1, 5), expectedResult);
+
+        miniRedis.zadd("zset", 5, "insideToo");
+        expectedResult.add("5) insideToo");
+
+        Assertions.assertEquals(miniRedis.zrange("zset", 1, 5), expectedResult);
+    }
+
+    @Test
+    void zrangeShouldPrintSortedElements(){
+        miniRedis.zadd("set", 6, "firstAdded");
+        miniRedis.zadd("set", 2, "secondAdded");
+
+        List<String> expectedResult = Arrays.asList("2) secondAdded", "6) firstAdded");
+
+        Assertions.assertEquals(miniRedis.zrange("set", 1, 6), expectedResult);
     }
 
 }

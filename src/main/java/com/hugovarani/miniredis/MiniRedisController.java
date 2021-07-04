@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Component
 public class MiniRedisController {
@@ -40,7 +42,7 @@ public class MiniRedisController {
 
     @PostMapping("/zadd/{key}")
     public Integer zadd(@PathVariable String key,
-                        @RequestParam(value = "score") Double score,
+                        @RequestParam(value = "score") Integer score,
                         @RequestParam(value = "member") String member){
         return miniRedis.zadd(key, score, member);
     }
@@ -48,5 +50,12 @@ public class MiniRedisController {
     @GetMapping("/zcard")
     public Integer zcard(@RequestParam(value = "key") String key){
         return miniRedis.zcard(key);
+    }
+
+    @GetMapping("zrange/{key}")
+    public List<String> zrange(@PathVariable String key,
+                               @RequestParam(value = "min") Integer min,
+                               @RequestParam(value = "max") Integer max){
+        return miniRedis.zrange(key, min, max);
     }
 }

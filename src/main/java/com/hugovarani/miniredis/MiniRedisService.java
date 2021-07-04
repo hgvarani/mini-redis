@@ -6,14 +6,15 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 
 @Service
 @Scope("singleton")
 public class MiniRedisService {
 
-    private ConcurrentHashMap<String, String> map;
-    private ConcurrentHashMap<String, LinkedHashMap<Double, String>> zSet;
+    private final ConcurrentHashMap<String, String> map;
+    private final ConcurrentHashMap<String, LinkedHashMap<Integer, String>> zSet;
 
     public MiniRedisService(){
         map = new ConcurrentHashMap<>();
@@ -76,19 +77,34 @@ public class MiniRedisService {
         }
     }
 
-    public Integer zadd(String key, Double score, String member){
+    public Integer zadd(String key, Integer score, String member){
         if (zSet.containsKey(key)){
             zSet.get(key).put(score, member);
             return 1;
         }
 
-        LinkedHashMap<Double, String> newZSet = new LinkedHashMap<>();
+        LinkedHashMap<Integer, String> newZSet = new LinkedHashMap<>();
         newZSet.put(score,member);
         zSet.put(key, newZSet);
         return 1;
     }
 
     public Integer zcard(String key){
-        return zSet != null && zSet.containsKey(key) ? zSet.get(key).size() : 0;
+        return zSet.containsKey(key) ? zSet.get(key).size() : 0;
+    }
+
+    public List<String> zrange(String key, Integer min, Integer max){
+        if(!zSet.containsKey(key)){
+            return Collections.emptyList();
+        }
+
+        return zSet.get(key).entrySet()
+                .stream().filter(entry -> entry.getKey() >= min && entry.getKey() <= max)
+                .map(elements -> {
+                    StringBuffer stringBuffer = new StringBuffer();
+                    stringBuffer.append(String.format("%s) %s", elements.getKey(), elements.getValue()));
+                    return stringBuffer.toString();
+                }).collect(Collectors.toList());
+
     }
 }

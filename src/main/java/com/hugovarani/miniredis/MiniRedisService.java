@@ -3,10 +3,7 @@ package com.hugovarani.miniredis;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -16,9 +13,11 @@ import java.util.concurrent.TimeUnit;
 public class MiniRedisService {
 
     private ConcurrentHashMap<String, String> map;
+    private ConcurrentHashMap<String, LinkedHashMap<Double, String>> zSet;
 
     public MiniRedisService(){
         map = new ConcurrentHashMap<>();
+        zSet = new ConcurrentHashMap<>();
     }
 
     public String set(String key, String value, Integer time) {
@@ -75,5 +74,21 @@ public class MiniRedisService {
         } catch (Exception e){
             return null;
         }
+    }
+
+    public Integer zadd(String key, Double score, String member){
+        if (zSet.containsKey(key)){
+            zSet.get(key).put(score, member);
+            return 1;
+        }
+
+        LinkedHashMap<Double, String> newZSet = new LinkedHashMap<>();
+        newZSet.put(score,member);
+        zSet.put(key, newZSet);
+        return 1;
+    }
+
+    public Integer zcard(String key){
+        return zSet != null && zSet.containsKey(key) ? zSet.get(key).size() : 0;
     }
 }

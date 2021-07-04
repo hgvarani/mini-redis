@@ -18,6 +18,11 @@ class MiniRedisServiceTest {
     }
 
     @Test
+    void setShouldThrowAnErrorWhenTimeIsInvalid(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> miniRedis.set("a", "a", -2));
+    }
+
+    @Test
     void setShouldThrowNPEWhenValueIsNull(){
         Assertions.assertThrows(NullPointerException.class, () -> miniRedis.set("myKey", null, null));
     }

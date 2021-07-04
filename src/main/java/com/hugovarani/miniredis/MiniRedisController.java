@@ -37,4 +37,16 @@ public class MiniRedisController {
     public Integer incr(@PathVariable String key){
         return miniRedis.incr(key);
     }
+
+    @PostMapping("/zadd/{key}")
+    public Integer zadd(@PathVariable String key,
+                        @RequestParam(value = "score") Double score,
+                        @RequestParam(value = "member") String member){
+        return miniRedis.zadd(key, score, member);
+    }
+
+    @GetMapping("/zcard")
+    public Integer zcard(@RequestParam(value = "key") String key){
+        return miniRedis.zcard(key);
+    }
 }

@@ -1,12 +1,10 @@
 package com.hugovarani.miniredis;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@Component
 public class MiniRedisController {
 
     private final MiniRedisService miniRedis;

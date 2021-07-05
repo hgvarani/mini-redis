@@ -1,6 +1,5 @@
 package com.hugovarani.miniredis;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -10,7 +9,6 @@ import java.util.stream.Collectors;
 
 
 @Service
-@Scope("singleton")
 public class MiniRedisService {
 
     private final ConcurrentHashMap<String, String> map;

@@ -1,6 +1,5 @@
 package com.hugovarani.miniredis;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +9,11 @@ import java.util.List;
 @Component
 public class MiniRedisController {
 
-    @Autowired
-    private final MiniRedisService miniRedis = new MiniRedisService();
+    private final MiniRedisService miniRedis;
+
+    public MiniRedisController(MiniRedisService miniRedisService) {
+        miniRedis = miniRedisService;
+    }
 
     @PostMapping("/set")
     public String set(@RequestParam(value = "key") String key,

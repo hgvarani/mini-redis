@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "bfc632af-b86a-4533-a00d-8bb58554253f",
+		"name": "Mini-redis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET Value by Key",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/get/a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"get",
+						"a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SET new entry",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/set?key=c&value=c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"set"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "c"
+						},
+						{
+							"key": "value",
+							"value": "c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL keys",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/del?keys=a,b,c,d,e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"del"
+					],
+					"query": [
+						{
+							"key": "keys",
+							"value": "a,b,c,d,e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DBSIZE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/dbsize",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"dbsize"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ZCARD",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/zcard?key=abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"zcard"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "abc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ZADD zset score member",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/zadd/abc?score=1&member=anotherTest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"zadd",
+						"abc"
+					],
+					"query": [
+						{
+							"key": "score",
+							"value": "1"
+						},
+						{
+							"key": "member",
+							"value": "anotherTest"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ZRANGE zset score member",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/zrange/abc?min=0&max=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"zrange",
+						"abc"
+					],
+					"query": [
+						{
+							"key": "min",
+							"value": "0"
+						},
+						{
+							"key": "max",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

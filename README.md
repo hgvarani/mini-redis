@@ -1,4 +1,5 @@
 #Mini Redis project
+
 How to build and run the project locally:
 
 macOS/Linux:

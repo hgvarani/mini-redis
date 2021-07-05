@@ -63,7 +63,7 @@ public class MiniRedisService {
 
     public Integer incr(String key) {
         if(!map.containsKey(key)){
-            map.put(key, "0");
+            map.putIfAbsent(key, "0");
         }
 
         try {
@@ -81,11 +81,11 @@ public class MiniRedisService {
         if (zSet.containsKey(key)){
             zSet.get(key).put(score, member);
             return 1;
+        } else {
+            ConcurrentHashMap<Integer, String> newZSet = new ConcurrentHashMap<>();
+            newZSet.put(score,member);
+            zSet.put(key, newZSet);
         }
-
-        ConcurrentHashMap<Integer, String> newZSet = new ConcurrentHashMap<>();
-        newZSet.put(score,member);
-        zSet.put(key, newZSet);
         return 1;
     }
 
@@ -99,13 +99,11 @@ public class MiniRedisService {
         }
 
         return zSet.get(key).entrySet()
-                .stream().sorted(Map.Entry.comparingByKey())
+                .stream()
                 .filter(entry -> entry.getKey() >= min && entry.getKey() <= max)
-                .map(elements -> {
-                    StringBuffer stringBuffer = new StringBuffer();
-                    stringBuffer.append(String.format("%s) %s", elements.getKey(), elements.getValue()));
-                    return stringBuffer.toString();
-                }).collect(Collectors.toList());
+                .sorted(Map.Entry.comparingByKey())
+                .map(elements -> String.format("%s) %s", elements.getKey(), elements.getValue()))
+                .collect(Collectors.toList());
 
     }
 }

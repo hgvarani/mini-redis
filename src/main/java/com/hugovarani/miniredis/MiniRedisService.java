@@ -62,9 +62,7 @@ public class MiniRedisService {
     }
 
     public Integer incr(String key) {
-        if(!map.containsKey(key)){
             map.putIfAbsent(key, "0");
-        }
 
         try {
             int value = Integer.parseInt(map.get(key));
